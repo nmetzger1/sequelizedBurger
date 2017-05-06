@@ -7,7 +7,6 @@ var methodOverride = require("method-override");
 var app = express();
 var PORT = process.env.PORT || 3000;
 
-var connection = require("./config/connection");
 
 app.use(bodyParser.urlencoded({ extended: false }));
 
