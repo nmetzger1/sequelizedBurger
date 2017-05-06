@@ -1,0 +1,50 @@
+body{
+    background-color: #f3ee10;
+}
+
+.logo{
+    display: block;
+    margin: auto;
+    width: 40%;
+}
+
+.menu-row{
+    margin: 3% 0;
+}
+
+.form-entry{
+    text-align: center;
+    padding: 5px;
+}
+
+.current-menu, .retired-menu{
+    border: solid 5px red;
+    outline: solid 2px black;
+    background-color: black;
+    color: white;
+    text-align: center;
+    padding: .25%;
+}
+
+.current-menu h2, .retired-menu h2{
+    text-decoration: underline;
+}
+
+.retired-burgers, .current-burgers{
+    font-family: 'Permanent Marker', cursive;
+    font-size: x-large;
+}
+
+.current-burgers{
+    display: inline-block;
+}
+
+.remove-btn{
+    background-color: black;
+    color: white;
+    border: 0;
+}
+
+.retire-form{
+    display: inline-block;
+}
