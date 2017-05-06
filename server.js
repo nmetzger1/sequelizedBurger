@@ -20,6 +20,10 @@ app.use(methodOverride("_method"));
 //create static path
 app.use(express.static(process.cwd() + "/public"));
 
+
+//require sequelize models
+var db = require("./models");
+
 var orm = require("./config/orm.js");
 
 app.get("/", function (req, res) {
@@ -28,11 +32,11 @@ app.get("/", function (req, res) {
     var current = [];
     var retired = [];
 
-    orm.select("menu", function (result) {
+    db.Burger.findAll({}).then(function (result) {
 
         //Loop through all results, separate current & retired
         for(var i = 0; i < result.length; i++){
-            if(result[i].retired === 0){
+            if(result[i].retired === false){
                 current.push(result[i]);
             }
             else {
@@ -44,22 +48,33 @@ app.get("/", function (req, res) {
             current: current,
             retired: retired
         });
-    });
-
+    })
 });
 
 app.post("/", function (req, res) {
-    orm.insert("menu", req.body.burgerName, function (result) {
+
+    db.Burger.create({
+        burger_name: req.body.burgerName
+    }).then(function (result) {
         res.redirect("/");
     });
 });
 
 app.put("/:id", function (req, res) {
-   orm.update("menu", req.params.id, function (result) {
-       res.redirect("/");
-   })
+
+    db.Burger.update({
+        retired: true
+    }, {
+        where: {
+            id: req.params.id
+        }
+    }).then(function (result) {
+        res.redirect("/");
+    })
 });
 
-app.listen(PORT, function () {
-    console.log("Listening on port: " + PORT);
+db.sequelize.sync({force: true}).then(function () {
+    app.listen(PORT, function () {
+        console.log("Listening on port: " + PORT);
+    });
 });
