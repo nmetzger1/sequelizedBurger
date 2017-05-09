@@ -31,8 +31,6 @@ module.exports = function (app) {
     //returns single burger name
     app.get("/:id", function (req, res) {
 
-        console.log("ID", req.params.id);
-
         db.Burger.findOne({
             where: {
                 id: req.params.id
@@ -43,16 +41,26 @@ module.exports = function (app) {
         })
     });
 
+    //adds burger to the table as current
     app.post("/", function (req, res) {
 
+        var name = req.body.burgerName;
+        var price = req.body.burgerPrice;
+
+        if(name == "" || price == ""){
+            return res.sendStatus(400, "Name or Price is empty.");
+        }
+
+
         db.Burger.create({
-            burger_name: req.body.burgerName,
-            price: "6.79"
+            burger_name: name,
+            price: price
         }).then(function (result) {
             res.redirect("/");
         });
     });
 
+    //moves the burger to retired
     app.put("/:id/:sales", function (req, res) {
 
         console.log("bing.");
