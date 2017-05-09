@@ -7,7 +7,8 @@
             <h2>Current Menu</h2>
             {{#each current}}
                 <p class="current-burgers">{{this.burger_name}}
-                <form class="retire-form" method="post" action="/{{this.id}}?_method=PUT">
+                <form class="retire-form">
+                    <input type="hidden" value="{{this.id}}" name="retBurgerId" id="retBurgerId">
                     <button type="submit" class="btn btn-default btn-sm remove-btn" aria-label="Remove">
                         <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
                     </button>
@@ -34,3 +35,68 @@
         </div>
     </div>
 </div>
+
+<!--Sales Modal-->
+<div class="modal fade" id="salesModal" tabindex="-1" role="dialog" aria-labelledby="salesModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title" id="salesModalLabel"></h4>
+            </div>
+            <div class="modal-body">
+                <form class="sales-form">
+                    <input type="hidden" id="burgerId">
+                    <label for="totalSales">Enter the number of burgers sold</label>
+                    <input type="text" id="totalSales" name="totalSales">
+                    <button type="submit" class="btn btn-default" id="retire-btn">Retire</button>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!--End of Sales Modal-->
+
+<script type="text/javascript">
+    $(".remove-btn").on("click", function (event) {
+        event.preventDefault();
+
+        var burgerId = $("#retBurgerId").val();
+
+        $.get("/" + burgerId)
+                .done(function (data) {
+                    console.log("Results:", data);
+
+                    $("#salesModalLabel").html(data.burger_name);
+                    $("#burgerId").val(burgerId);
+
+                    $("#salesModal").modal('show');
+                });
+    });
+
+    $("#retire-btn").on("click", function (event) {
+
+        event.preventDefault();
+
+        var burgerId = $('#burgerId').val();
+        var sales = $('#totalSales').val().trim();
+
+        $.ajax({
+            url: "/" + burgerId + "/" + sales,
+            method: "put",
+            success: function (data) {
+
+                console.log(data);
+               window.location.href = data.redirect;
+            }
+        });
+
+
+    })
+
+</script>

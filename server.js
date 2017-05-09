@@ -54,13 +54,16 @@ app.get("/", function (req, res) {
 app.post("/", function (req, res) {
 
     db.Burger.create({
-        burger_name: req.body.burgerName
+        burger_name: req.body.burgerName,
+        price: "6.79"
     }).then(function (result) {
         res.redirect("/");
     });
 });
 
-app.put("/:id", function (req, res) {
+app.put("/:id/:sales", function (req, res) {
+
+    console.log("bing.");
 
     db.Burger.update({
         retired: true
@@ -69,7 +72,26 @@ app.put("/:id", function (req, res) {
             id: req.params.id
         }
     }).then(function (result) {
-        res.redirect("/");
+
+        var redirect = {
+            redirect: "/"
+        };
+
+        return res.json(redirect);
+    })
+});
+
+app.get("/:id", function (req, res) {
+
+    console.log("ID", req.params.id);
+
+    db.Burger.findOne({
+        where: {
+            id: req.params.id
+        }
+    }).then(function (result) {
+        console.log(result);
+        return res.json(result);
     })
 });
 
