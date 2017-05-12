@@ -32,11 +32,18 @@
         </div>
         <div class="col-md-4 retired-menu">
             <h2>Retired Burgers</h2>
-            {{#each retired}}
-                <p class="retired-burgers">
-                    {{this.burger_name}}
-                </p>
-            {{/each}}
+            <table class="retired-table">
+               <tr>
+                   <th class="table-header">Burger</th>
+                   <th class="table-header">Total Sales</th>
+               </tr>
+                {{#each retired}}
+                    <tr>
+                        <td class="retired-burgers">{{this.burger_name}}</td>
+                        <td class="sales-data">${{this.total_sales}}</td>
+                    </tr>
+                {{/each}}
+            </table>
         </div>
     </div>
 </div>

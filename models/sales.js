@@ -3,10 +3,6 @@ module.exports = function (sequelize, DataTypes) {
         units_sold: {
             type: DataTypes.INTEGER,
             allowNull: false
-        },
-        total_sales: {
-            type: DataTypes.DECIMAL,
-            allowNull: false
         }
     },{
         //join with burger table

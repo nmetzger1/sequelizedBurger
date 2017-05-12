@@ -31,8 +31,17 @@ body{
 }
 
 .retired-burgers, .current-burgers{
-    font-family: 'Permanent Marker', cursive;
-    font-size: x-large;
+    font-family: 'Shadows Into Light Two', cursive;
+    font-size: xx-large;
+}
+
+.retired-table{
+    width: 100%;
+}
+
+.table-header{
+    text-align: center;
+    font-size: large;
 }
 
 .current-burgers{
@@ -47,4 +56,24 @@ body{
 
 .retire-form{
     display: inline-block;
+}
+
+.modal-header{
+    border: none;
+}
+
+.modal-footer{
+    border: none;
+}
+
+.modal-content{
+    background-image: url("../img/bob.jpg");
+    background-size: 20%;
+    background-repeat: no-repeat;
+    background-position: right;
+}
+
+.sales-data{
+    font-size: x-large;
+    font-family: 'Shadows Into Light Two', cursive;
 }

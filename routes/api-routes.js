@@ -9,7 +9,9 @@ module.exports = function (app) {
         var current = [];
         var retired = [];
 
-        db.Burger.findAll({}).then(function (result) {
+        db.Burger.findAll({
+            include: db.Sales
+        }).then(function (result) {
 
             //Loop through all results, separate current & retired
             for(var i = 0; i < result.length; i++){
@@ -17,7 +19,13 @@ module.exports = function (app) {
                     current.push(result[i]);
                 }
                 else {
-                    retired.push(result[i]);
+
+                    var retiredArray = {
+                        burger_name: result[i].burger_name,
+                        total_sales: result[i].price * result[i].Sales[0].units_sold
+                    };
+
+                    retired.push(retiredArray);
                 }
             }
             //display both menus
@@ -51,7 +59,6 @@ module.exports = function (app) {
             return res.sendStatus(400, "Name or Price is empty.");
         }
 
-
         db.Burger.create({
             burger_name: name,
             price: price
@@ -73,11 +80,17 @@ module.exports = function (app) {
             }
         }).then(function (result) {
 
-            var redirect = {
-                redirect: "/"
-            };
+            db.Sales.create({
+                units_sold: req.params.sales,
+                BurgerId: req.params.id
+            }).then(function (results) {
 
-            return res.json(redirect);
+                var redirect = {
+                    redirect: "/"
+                };
+
+                return res.json(redirect);
+            })
         })
     });
 };
